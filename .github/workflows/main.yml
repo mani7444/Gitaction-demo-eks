@@ -102,5 +102,6 @@ jobs:
         kubectl apply -f eks/service.yaml
         kubectl apply -f eks/ingress.yaml 
     - name: kubesccape scan
-      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit
+      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan framework nsa --format json --output results.json
+   
         
