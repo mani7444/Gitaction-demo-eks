@@ -92,7 +92,7 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
     - name: Kubernetes set context
-      uses: awslabs/amazon-app-runner-deploy@main
+      uses: ianbelcher/eks-kubectl-action@master
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
