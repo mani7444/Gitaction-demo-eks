@@ -59,8 +59,8 @@ jobs:
     - name: Test
       run: make test
  
-    - name: Check out code
-      uses: actions/checkout@v2
+ #   - name: Check out code
+  #    uses: actions/checkout@v2
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v1
