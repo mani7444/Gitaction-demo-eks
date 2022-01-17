@@ -99,6 +99,7 @@ jobs:
         kubectl apply -f eks/aws-auth.yaml 
         kubectl apply -f eks/deployment.yaml
         kubectl apply -f eks/service.yaml
-        kubectl apply -f eks/issuer.yaml
         kubectl apply -f eks/ingress.yaml 
+    - name: kubesccape scan
+      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit
         
