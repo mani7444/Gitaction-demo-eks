@@ -55,7 +55,6 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Build project with Maven
     - name: Depcheck
       uses: dependency-check/Dependency-Check_Action@main
       id: Depcheck
