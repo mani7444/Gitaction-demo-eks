@@ -114,7 +114,7 @@ jobs:
         kubectl apply -f eks/service.yaml
         kubectl apply -f eks/ingress.yaml 
     - name: kubesccape scan
-      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /-bin/bash && kubescape scan --submit 
+      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit 
     - name: Defectdojo Report
       run: python upload-results.py --host 208.167.242.196:8080 --api_key 17d83e3c23ed4c684821411146c373a2347d50f7 --engagement_id 5 --result_file /github/workspace/reports/dependency-check-report.html
    
