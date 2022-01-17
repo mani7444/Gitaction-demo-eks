@@ -91,7 +91,7 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
     - name: Trivy scan
-      run: wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb && sudo dpkg -i trivy_0.18.3_Linux-64bit.deb && trivy image $IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+      run: wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb && sudo dpkg -i trivy_0.18.3_Linux-64bit.deb && trivy image golang:1.16-alpine3.13
     - name: Kubernetes set context
       run: aws eks update-kubeconfig --name basic-cluster --region us-east-2
 
