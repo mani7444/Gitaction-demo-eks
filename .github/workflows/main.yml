@@ -92,7 +92,7 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
     - name: Kubernetes set context
-      uses: Azure/k8s-set-context@v1.1
+      uses: kodermax/kubectl-aws-eks@master
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
