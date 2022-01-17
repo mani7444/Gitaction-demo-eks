@@ -116,6 +116,5 @@ jobs:
     - name: kubesccape scan
       run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit 
     - name: Defectdojo Report
-      run: python upload-results.py --host 208.167.242.196:8080 --api_key 17d83e3c23ed4c684821411146c373a2347d50f7 --engagement_id 5 --result_file /github/workspace/reports/dependency-check-report.html
-   
+      run: curl -X POST "http://208.167.242.196:8080/api/v2/import-scan/" -H  "accept: application/json" -H  "Authorization: Token 17d83e3c23ed4c684821411146c373a2347d50f7" -H  "Content-Type: multipart/form-data" -F "minimum_severity=Info" -F "active=true" -F "verified=true" -F "scan_type=Dependency Check Scan" -F "product_type_name=Git_action_demo" -F "product_name=Golang" -F "engagement_name=SecondEngagement" -F "engagement=2" -F "test_title=Dependency check" -F "close_old_findings=false" -F "push_to_jira=false" -F "group_by=file_path"   
         
