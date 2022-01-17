@@ -53,8 +53,8 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-    - name: Checkout
-      uses: actions/checkout@v2
+   # - name: Checkout
+  #    uses: actions/checkout@v2
     - name: Depcheck
       uses: dependency-check/Dependency-Check_Action@main
       id: Depcheck
