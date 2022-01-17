@@ -92,7 +92,7 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
     - name: Kubernetes set context
-      uses: ianbelcher/eks-kubectl-action@master
+      uses: qazz92/kubectl@1.0.3
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
