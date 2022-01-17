@@ -30,8 +30,7 @@ jobs:
     steps:
     - name: Gitleals scan
       run:  export VER="1.24.0" &&  wget https://github.com/zricethezav/gitleaks/releases/download/v$VER/gitleaks-linux-amd64 && mv gitleaks-linux-amd64 gitleaks && chmod +x gitleaks && sudo mv gitleaks /usr/local/bin/ && gitleaks --repo=https://github.com/mani7444/Gitaction-demo-eks.git
-    - name: semgrep scan
-      run: python3 -m pip install semgrep && semgrep --config=auto $(pwd)
+    
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
@@ -40,13 +39,20 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
-
+    - name: semgrep scan
+      run: python3 -m pip install semgrep && semgrep --config=auto $(pwd)
     - name: Install golang-migrate
       run: |
         curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
         sudo mv migrate.linux-amd64 /usr/bin/migrate
         which migrate
-
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     - name: Run migrations
       run: make migrateup
 
