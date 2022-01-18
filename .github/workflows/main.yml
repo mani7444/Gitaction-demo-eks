@@ -70,51 +70,56 @@ jobs:
 
     - name: Test
       run: make test
- 
+    - name: Reports
+    - uses: actions/checkout@master
+    - name: Validate links
+      uses: ad-m/report-link-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
  #   - name: Check out code
-  #    uses: actions/checkout@v2
+ #     uses: actions/checkout@v2
 
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.21.3'
-      id: install
+#    - name: Install kubectl
+#      uses: azure/setup-kubectl@v1
+#      with:
+#        version: 'v1.21.3'
+#      id: install
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+#    - name: Configure AWS credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        aws-region: us-east-2
+#
+#    - name: Login to Amazon ECR
+#      id: login-ecr
+#      uses: aws-actions/amazon-ecr-login@v1
+#
+#    - name: Load secrets and save to app.env
+#      run: aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > app.env
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+#    - name: Build, tag, and push image to Amazon ECR
+#      env:
+#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        ECR_REPOSITORY: docker_ecr_demo
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+#        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+#    - name: Trivy scan
+#      run: wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb && sudo dpkg -i trivy_0.18.3_Linux-64bit.deb && trivy image golang:1.16-alpine3.13
+#    - name: Kubernetes set context
+#      run: aws eks update-kubeconfig --name basic-cluster --region us-east-2
 
-    - name: Load secrets and save to app.env
-      run: aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > app.env
-
-    - name: Build, tag, and push image to Amazon ECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: docker_ecr_demo
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
-    - name: Trivy scan
-      run: wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb && sudo dpkg -i trivy_0.18.3_Linux-64bit.deb && trivy image golang:1.16-alpine3.13
-    - name: Kubernetes set context
-      run: aws eks update-kubeconfig --name basic-cluster --region us-east-2
-
-    - name: Deploy image to Amazon EKS
-      run: |
-        kubectl apply -f eks/aws-auth.yaml 
-        kubectl apply -f eks/deployment.yaml
-        kubectl apply -f eks/service.yaml
-        kubectl apply -f eks/ingress.yaml 
-    - name: kubesccape scan
-      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit 
-    - name: Defectdojo Report
-      run: curl -X POST "http://208.167.242.196:8080/api/v2/import-scan/" -H  "accept: application/json" -H  "Authorization: Token 17d83e3c23ed4c684821411146c373a2347d50f7" -H  "Content-Type: multipart/form-data" -F "minimum_severity=Info" -F "active=true" -F "verified=true" -F "scan_type=Dependency Check Scan" -F "product_type_name=Git_action_demo" -F "product_name=Golang" -F "engagement_name=SecondEngagement" -F "engagement=2" -F "test_title=Dependency check" -F "close_old_findings=false" -F "push_to_jira=false" -F "group_by=file_path"   
+#    - name: Deploy image to Amazon EKS
+#      run: |
+#        kubectl apply -f eks/aws-auth.yaml 
+#        kubectl apply -f eks/deployment.yaml
+#        kubectl apply -f eks/service.yaml
+#        kubectl apply -f eks/ingress.yaml 
+#    - name: kubesccape scan
+#      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit 
+#    - name: Defectdojo Report
+#      run: curl -X POST "http://208.167.242.196:8080/api/v2/import-scan/" -H  "accept: application/json" -H  "Authorization: Token 17d83e3c23ed4c684821411146c373a2347d50f7" -H  "Content-Type: multipart/form-data" -F "minimum_severity=Info" -F "active=true" -F "verified=true" -F "scan_type=Dependency Check Scan" -F "product_type_name=Git_action_demo" -F "product_name=Golang" -F "engagement_name=SecondEngagement" -F "engagement=2" -F "test_title=Dependency check" -F "close_old_findings=false" -F "push_to_jira=false" -F "group_by=file_path"   
         
