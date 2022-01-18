@@ -70,7 +70,9 @@ jobs:
 
     - name: Test
       run: make test
-      
+    - uses: actions/checkout@master
+    - name: Validate links
+      uses: ad-m/report-link-action@master  
    
  #   - name: Check out code
  #     uses: actions/checkout@v2
