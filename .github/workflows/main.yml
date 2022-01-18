@@ -31,7 +31,7 @@ jobs:
 #    - name: Gitleals scan
 #      run:  export VER="1.24.0" &&  wget https://github.com/zricethezav/gitleaks/releases/download/v$VER/gitleaks-linux-amd64 && mv gitleaks-linux-amd64 gitleaks && chmod +x gitleaks && sudo mv gitleaks /usr/local/bin/ && gitleaks --repo=https://github.com/mani7444/Gitaction-demo-eks.git
     - name: Gitleaks scan
-      with:
+      
          fetch-depth: '0'
     - name: gitleaks-action
       uses: zricethezav/gitleaks-action@master
