@@ -119,7 +119,22 @@ jobs:
 #      run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash && kubescape scan --submit 
 #    - name: Defectdojo Report
 #      run: curl -X POST "http://208.167.242.196:8080/api/v2/import-scan/" -H  "accept: application/json" -H  "Authorization: Token 17d83e3c23ed4c684821411146c373a2347d50f7" -H  "Content-Type: multipart/form-data" -F "minimum_severity=Info" -F "active=true" -F "verified=true" -F "scan_type=Dependency Check Scan" -F "product_type_name=Git_action_demo" -F "product_name=Golang" -F "engagement_name=SecondEngagement" -F "engagement=2" -F "test_title=Dependency check" -F "close_old_findings=false" -F "push_to_jira=false" -F "group_by=file_path"   
-    - name: OWASP ZAP Full Scan
-      uses: zaproxy/action-full-scan@v0.1.0
-      with: 
-        target: "https://github.com/mani7444/Gitaction-demo-eks/edit/master/.github/workflows/main.yml/"
+#    - name: OWASP ZAP Full Scan
+#      uses: zaproxy/action-full-scan@v0.1.0
+#      with: 
+#        target: "https://github.com/mani7444/Gitaction-demo-eks/edit/master/.github/workflows/main.yml/"
+    - name: Clone code repository
+      uses: actions/checkout@v2
+    - name: Publish report
+      id: import-scan
+      uses: ivanamat/defectdojo-import-scan@v1
+      with:
+        token: ${{ secrets.DEFECTOJO_TOKEN }}
+        defectdojo_url: ${{ secrets.DEFECTOJO_URL }}
+        file: reports/dependency-check-report.html
+        scan_type: Dependency Check Scan
+        engagement: 3
+    - name: Show response
+      run: |
+        set -e
+        printf '%s\n' '${{ steps.import-scan.outputs.response }}'
