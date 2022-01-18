@@ -71,10 +71,7 @@ jobs:
     - name: Test
       run: make test
       
-    - name: Reports
-    - uses: actions/checkout@master && ad-m/report-link-action@master
-      env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+   
  #   - name: Check out code
  #     uses: actions/checkout@v2
 
