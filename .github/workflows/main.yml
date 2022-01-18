@@ -72,7 +72,6 @@ jobs:
       run: make test
     - name: Reports
     - uses: actions/checkout@master && ad-m/report-link-action@master
-    - name: Validate links
       env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
  #   - name: Check out code
