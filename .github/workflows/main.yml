@@ -64,7 +64,7 @@ jobs:
       with:
         project: 'test'
         path: '.'
-        format: 'json'    
+        format: 'JSON'    
         args: >
             --failOnCVSS 7
             --enableRetired
