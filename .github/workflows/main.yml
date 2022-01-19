@@ -133,14 +133,15 @@ jobs:
       with:
         token: ${{ secrets.DEFECTOJO_TOKEN }}
         defectdojo_url: ${{ secrets.DEFECTOJO_URL }}
-        file: reports/trivy-scan-report.json
-        scan_type: Trivy Scan
+        file: reports/dependency-check-report.xml
+        scan_type: dependency Scan Check
         engagement: 1 
     - name: Show response 
       run: |
         set -e
         printf '%s\n' '${{ steps.import-scan.outputs.response }}'
-  
+        curl -X POST "http://208.167.242.196:8080/api/v2/import-scan/" -H  "accept: application/json" -H  "Authorization: Token 4d10ab83f654f53297d9014735f2a326be0fa10a" -H  "Content-Type: multipart/form-data" -F "minimum_severity=Info" -F "active=true" -F "scan_type=Dependency Check Scan" -F "file=@reports/dependency-check-report.xml;type=text/xml" -F "product_type_name=Test Prod Type 2" -F "product_name=Test Prod 2" -F "engagement_name=Test Engagement 2" -F "test_title=Dependency Check" -F "auto_create_context=true" -F "close_old_findings=false" -F "push_to_jira=false"
+        
 
 
         
