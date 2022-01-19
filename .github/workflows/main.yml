@@ -125,8 +125,8 @@ jobs:
 #      uses: zaproxy/action-full-scan@v0.1.0
 #      with: 
 #        target: "https://github.com/mani7444/Gitaction-demo-eks/edit/master/.github/workflows/main.yml/"
-    - name: Clone code repository
-      uses: actions/checkout@v2
+#   - name: Clone code repository
+#      uses: actions/checkout@v2
     - name: Publish report
       id: import-scan
       uses: ivanamat/defectdojo-import-scan@v1 
